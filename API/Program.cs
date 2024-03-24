@@ -1,5 +1,6 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options => {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("CORSPolicy", builder => {
+        builder.AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .SetIsOriginAllowed((hosts) => true);
+    });
 });
 
 var app = builder.Build();
@@ -27,6 +37,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseCors("CORSPolicy");
 app.MapControllers();
 
 app.Run();
