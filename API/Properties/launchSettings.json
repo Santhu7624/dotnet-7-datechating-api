@@ -1,15 +1,16 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:12906",
-      "sslPort": 44350
-    }
-  },
+  // "iisSettings": {
+  //   "windowsAuthentication": false,
+  //   "anonymousAuthentication": true,
+  //   "iisExpress": {
+  //     "applicationUrl": "http://localhost:12906",
+  //     "sslPort": 44350
+  //   }
+  // },
   "profiles": {
     "http": {
+      "hotReloadEnabled": false,
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -29,13 +30,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    }
+    // "IIS Express": {
+    //   "commandName": "IISExpress",
+    //   "launchBrowser": true,
+    //   "launchUrl": "swagger",
+    //   "environmentVariables": {
+    //     "ASPNETCORE_ENVIRONMENT": "Development"
+    //   }
+    // }
   }
 }
