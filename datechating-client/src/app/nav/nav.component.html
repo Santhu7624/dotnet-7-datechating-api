@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-md nav-dark fixed-top bg-info text-white">
+
+
+<div class="container">
+    <a href="#" class="navbar-brand">Dating App</a>
+    <!-- <button class="navbar-toggler" type="button"
+        data-bs-toggle = "collapse"
+        data-bs-target = "#navbar">
+    <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mbmd-0" >
+            <ng-container *ngIf="accountService.currentUser$ | async">
+            
+                <li class="nav-item">
+                    <a href="#" class="nav-link" routerLink="/members">Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" routerLink="/list">Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link" routerLink="/messages">Messages</a>
+                </li>
+            
+            </ng-container>
+        </ul>       
+
+        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
+            <a  class="dropdown-toggle text-white" dropdownToggle> Welcom User</a>
+            <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a class="dropdown-item">Edit</a>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
+            </div>
+        </div>
+
+        <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" role="search" class="d-flex" (ngSubmit)="login()">
+            <input type="text" 
+                class="form-control me-2" 
+                [(ngModel)]="model.username"
+                placeholder="username"
+                name="username"
+                >
+
+            <input type="password"
+                class="form-control"
+                [(ngModel)]="model.password"
+                placeholder="Password"
+                name="password">
+            <button class="btn btn-secondary" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+</nav>

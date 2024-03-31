@@ -1,0 +1,30 @@
+<form #registerForm="ngForm" (ngSubmit)="register()">
+<h2 class="text-center text-primary">Sign Up</h2>
+<hr>
+<div class="mb-3">
+    <input type="text" class="form-control"
+        placeholder="Username"
+        name="username"
+        [(ngModel)]="model.username">
+</div>
+
+<!-- <div class="mb-3">
+    <select name="" id="" class="form-select">
+        <option *ngFor="let user of userInputFromParent">
+            {{user.userName}}
+        </option>
+    </select>
+</div> -->
+
+<div class="mb-3">
+    <input type="password" class="form-control"
+        placeholder="Password"
+        name="password"
+        [(ngModel)]="model.username">
+</div>
+
+<div class="text-center">
+    <button class="btn btn-success me-2" type="submit">Register</button>
+    <button class="btn btn-outline-danger" type="button" (click)="cancelReg()">Cancel</button>
+</div>
+</form>

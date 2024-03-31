@@ -12,14 +12,14 @@ namespace API.Extensions
         {
             services.AddSwaggerGen(options => {
                 
-                options.SwaggerDoc("v2", new OpenApiInfo{
+                options.SwaggerDoc("v1", new OpenApiInfo{
                     Title = " My API",
                     Version = "Version1",
                     
                 });
 
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
-                    In = ParameterLocation.Header,
+                options.AddSecurityDefinition("JWT", new OpenApiSecurityScheme{
+                    In = ParameterLocation.Header,//ParameterLocation.Header,
                     BearerFormat = "JWT",
                     Description = "Please insert JWT with Bearer into field",
                     Name = "Authorization",

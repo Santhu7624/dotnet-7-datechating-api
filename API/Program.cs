@@ -1,12 +1,6 @@
-using API.Data;
 using API.Interfaces;
 using API.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using API.Extensions;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +32,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors("CORSPolicy");
+
 app.MapControllers();
 
 app.Run();
