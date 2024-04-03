@@ -12,28 +12,25 @@ export class AppComponent implements OnInit {
   title = 'datechating-client';
   users: any;
 
-  constructor(private http : HttpClient, private accountService : AccountService){ }
-  
-  
+  constructor(private http: HttpClient, 
+              private accountService: AccountService) { }
+
+
   ngOnInit(): void {
-    
-   
-    this.setCurrentUser();   
-    
+    this.setCurrentUser();
   }
 
-  
+  setCurrentUser() {
 
-  setCurrentUser(){
     const userString = localStorage.getItem('user');
 
-    if(!userString) return;
+    if (!userString) return;
 
-    const user : User = JSON.parse(localStorage.getItem('user')!);    
+    const user: User = JSON.parse(localStorage.getItem('user')!);
     this.accountService.setCurrentUser(user);
-    
+
   }
 
-  
+
 
 }

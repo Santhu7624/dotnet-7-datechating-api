@@ -9,47 +9,47 @@ import { Router } from '@angular/router';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit{
+export class NavComponent implements OnInit {
 
   isloogedIn = false;
-  model : any = {};
+  model: any = {};
 
   constructor(
-    public accountService : AccountService, 
-    private toastr : ToastrService,
-    private router : Router){}
+    public accountService: AccountService,
+    private toastr: ToastrService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
-      this.getCurrentUser();
+    this.getCurrentUser();
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     this.accountService.currentUser$.subscribe({
-      next : user => this.isloogedIn = !!user,
+      next: user => this.isloogedIn = !!user,
       error: error => console.log(error)
-      
+
     })
   }
 
-  login(){
-    console.log("Calling Login : " +JSON.stringify( this.model));
-    
+  login() {
+    console.log("Calling Login : " + JSON.stringify(this.model));
+
     this.accountService.login(this.model).subscribe({
       next: resp => {
         //console.log("Success Login : " +JSON.stringify(resp)),
         //this.isloogedIn = true
         this.router.navigateByUrl("/members");
       },
-      error : error => this.toastr.error(error.error),
-      complete : () => console.log("Complete")
-      
+      error: error => this.toastr.error(error.error),
+      complete: () => console.log("Complete")
+
     });
   }
-  
 
 
-  logout(){
+
+  logout() {
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }

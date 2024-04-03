@@ -10,32 +10,29 @@ export class AccountService {
   baseUrl = "http://localhost:5123/api";
   currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
-  
-  
 
-  constructor(private http : HttpClient) { }
 
-  login(model : any){
+
+  constructor(private http: HttpClient) { }
+
+  login(model: any) {
     return this.http.post<User>(this.baseUrl + "/account/login", model).pipe(
-      map((response : User) => {
+      map((response: User) => {
         const user = response;
-        if(user)
-        {
+        if (user) {
           localStorage.setItem('user', JSON.stringify(response));
           this.currentUserSource.next(user);
         }
       })
     );
-    
+
   }
 
-  register(model : any){
+  register(model: any) {
     return this.http.post<User>(this.baseUrl + "/account/register", model).pipe(
-      map((response : any) =>
-      {
+      map((response: any) => {
         const user = response;
-        if(user)
-        {
+        if (user) {
           localStorage.setItem('user', JSON.stringify(user))
           this.currentUserSource.next(user);
         }
@@ -43,12 +40,11 @@ export class AccountService {
     )
   }
 
-  setCurrentUser(user : User)
-  {
+  setCurrentUser(user: User) {
     this.currentUserSource.next(user);
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
   }

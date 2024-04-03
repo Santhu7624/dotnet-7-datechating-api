@@ -9,29 +9,29 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent implements OnInit {
 
-  model: any ={};
+  model: any = {};
   // @Input() userInputFromParent : any;
   @Output() cancelRegEvent = new EventEmitter<boolean>();
 
-  constructor(private accountService : AccountService, private toastr : ToastrService){}
+  constructor(private accountService: AccountService, private toastr: ToastrService) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
 
   }
 
 
-  register(){
+  register() {
     //console.log(JSON.stringify(""))
     this.accountService.register(this.model).subscribe({
-      next : () =>{
+      next: () => {
         this.cancelReg();
       },
-      error : err => this.toastr.error(err.error)
-      
+      error: err => this.toastr.error(err.error)
+
     });
   }
 
-  cancelReg(){
+  cancelReg() {
     this.cancelRegEvent.emit(false);
   }
 }
