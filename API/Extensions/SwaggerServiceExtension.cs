@@ -37,7 +37,8 @@ namespace API.Extensions
                             }
                             
                         },
-                        new string[] {}
+                        //new string[] {}
+                        Array.Empty<string>()
                     }
                 });
                 
