@@ -8,6 +8,7 @@ import { MemeberDetailsComponent } from './members/memeber-details/memeber-detai
 import { AuthGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { UploadComponent } from './File/upload/upload.component';
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   },
   {path:'not-found', component: NotFoundComponent} ,
   {path:'server-error', component:ServerErrorComponent},
+  {path:'file', component: UploadComponent} ,
   {path:'**', component: HomeComponent, pathMatch:'full'}
 ];
 

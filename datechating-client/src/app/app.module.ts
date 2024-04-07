@@ -19,6 +19,7 @@ import { SharedModule } from './_modules/shared.module';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { UploadComponent } from './File/upload/upload.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     ListComponent,
     MessagesComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,

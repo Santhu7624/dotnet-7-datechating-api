@@ -18,12 +18,13 @@ namespace API.Extensions
                     
                 });
 
-                options.AddSecurityDefinition("JWT", new OpenApiSecurityScheme{
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
                     In = ParameterLocation.Header,//ParameterLocation.Header,
                     BearerFormat = "JWT",
                     Description = "Please insert JWT with Bearer into field",
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement{
@@ -37,8 +38,8 @@ namespace API.Extensions
                             }
                             
                         },
-                        //new string[] {}
-                        Array.Empty<string>()
+                        new string[] {}
+                        //Array.Empty<string>()
                     }
                 });
                 

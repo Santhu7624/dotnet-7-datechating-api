@@ -1,0 +1,68 @@
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-3">
+        <input type="file" 
+            #file 
+            name="file" 
+            placeholder="Choose file"
+            style="display:none;"
+            (change)="uploadFiles(file.files)">
+        <button class="btn btn-success"
+            type="button"
+            (click)="file.click()"
+            >Upload File</button>
+    </div>
+    <div class="col-md-4">
+        <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+        </span>
+        <span class="upload" *ngIf="message && isUpload">
+            {{message}}
+        </span>
+    </div>
+<hr>
+<h1 class="blink_me">Download Your Favour Emoji</h1>
+
+    <div class="row">
+        <table class="table">
+            <thead class="justify-content-between align-center" 
+                    style="text-align: center; font-size: 20px;">
+                <th>No.</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Action</th>
+            </thead>
+            <tbody *ngFor="let emoji of photos; let i = index;">
+                <tr style="text-align: center;">
+                    <td>{{i+1}}</td>
+                    <td>img{{i+1}}</td>
+                    <td>
+                        <img [src]="createImgPath(emoji)" alt="" width="40" >
+                    </td>
+                    <td>
+                        <button class="btn btn-info"
+                                (click)="downloadFile(emoji)">
+                            <i class="fa fa-download"></i>
+                         Download
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="row mb-3 mt-3">
+        <div class="col-md-3">
+          <button type="button" 
+            class="btn btn-success" 
+            >Download File</button>
+        </div>
+        <div class="col-md-4">
+          <span class="download" *ngIf="progress > 0">
+            {{progress}}%
+          </span>
+          <span class="download" *ngIf="isDownload">
+            {{message}}
+          </span>
+        </div>
+    </div>
+</div>

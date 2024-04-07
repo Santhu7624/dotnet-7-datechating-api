@@ -1,0 +1,25 @@
+.upload{
+    font-weight:bold;
+    color:#28a745;
+    margin-left: 15px;
+    line-height: 36px;
+  }
+
+  .download {
+    font-weight:bold;
+    color:#28a745;
+    margin-left: 15px;
+    line-height: 36px;
+  }
+  div {
+    margin-top: 5px;
+  }
+
+  .blink_me {
+    animation: blinker 3s linear infinite;
+    color: beige;
+  }
+  
+  @keyframes blinker {  
+    50% { opacity: 0; }
+  }
