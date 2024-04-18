@@ -1,12 +1,9 @@
-.profile-card{
-    border: 2px solid;
-}
-
 .img-thumbnail {
     margin: 25px;
-    width: 80%;
-    height: 55%;
+    width: 70%;
+    height: 45%;
     background-color: #fff;
+    align-items: center;
 }
 
 .card-body {
@@ -18,9 +15,4 @@
     padding: 10px 15px;
     background-color: #fff;
     border-top: none;
-}
-
-.ngx-gallery{
-    display:inline-block;
-    margin-bottom: 20px;
 }

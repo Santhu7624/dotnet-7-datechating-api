@@ -1,6 +1,6 @@
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FileService } from 'src/app/services/file.service';
+import { FileService } from 'src/app/_services/file.service';
 import {HttpErrorResponse, HttpEventType, HttpResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 

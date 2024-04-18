@@ -25,7 +25,7 @@
             
             </ng-container>
             <li class="nav-item">
-                <a href="" class="nav-link" routerLink="/errors">Messages</a>
+                <a href="" class="nav-link" routerLink="/errors">Errors</a>
             </li>
             <li class="nav-item">
                 <a href="" class="nav-link" routerLink="/file">File</a>
@@ -35,7 +35,7 @@
         <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
             <a  class="dropdown-toggle text-white" dropdownToggle> Welcom User</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
-                <a class="dropdown-item">Edit</a>
+                <a class="dropdown-item" routerLink="/member/edit">Edit</a>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
         </div>

@@ -9,6 +9,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { UploadComponent } from './File/upload/upload.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { preventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
@@ -17,13 +19,14 @@ const routes: Routes = [
     canActivate:[AuthGuard],
     children:[
       {path:'members', component: MemebersListComponent},
-      {path:'members/:id', component: MemeberDetailsComponent},
+      {path:'members/:username', component: MemeberDetailsComponent},
+      {path:'member/edit', component: MemberEditComponent, canDeactivate:[preventUnsavedChangesGuard]},
       {path:'list', component: ListComponent},
       {path:'messages', component : MessagesComponent}
     ]
   },
   {path:'not-found', component: NotFoundComponent} ,
-  {path:'server-error', component:ServerErrorComponent},
+  {path:'errors', component:ServerErrorComponent},
   {path:'file', component: UploadComponent} ,
   {path:'**', component: HomeComponent, pathMatch:'full'}
 ];
