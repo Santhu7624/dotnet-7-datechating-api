@@ -40,6 +40,14 @@ export class MemberService {
    );
   }
 
+  setMemberMainPhoto(photoId : number){
+    return this.http.put(this.baseUrl + 'user/set-main-photo/'+photoId,{});
+  }
+
+  deleteMemberPhoto(photoId : number){
+    return this.http.delete(this.baseUrl + 'user/delete-photo/'+photoId, {});
+  }
+
   getHttpOptions(){
     const userToken = localStorage.getItem('user');
     if(!userToken) return;

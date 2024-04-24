@@ -9,6 +9,9 @@ namespace API.DTO
     {
         public string Username { get; set; }
 
-        public string token {get; set;}
+        public string Token {get; set;}
+
+
+        public string PhotoUrl { get; set; }
     }
 }

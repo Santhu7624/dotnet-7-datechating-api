@@ -32,8 +32,9 @@
             </li>
         </ul>       
 
-        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-            <a  class="dropdown-toggle text-white" dropdownToggle> Welcom User</a>
+        <div class="dropdown" *ngIf="accountService.currentUser$ | async as user" dropdown>
+            <img src="{{user.photoUrl || './assets/user.png'}}" alt="">
+            <a  class="dropdown-toggle text-white text-decoraation-none ms-1" dropdownToggle> Welcome {{user.username}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
                 <a class="dropdown-item" routerLink="/member/edit">Edit</a>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
