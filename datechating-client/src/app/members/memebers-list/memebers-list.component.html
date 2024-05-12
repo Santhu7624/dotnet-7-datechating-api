@@ -1,5 +1,59 @@
-<div class="row">
-    <div class="col-2" *ngFor="let member of members$ |async">
+ <!-- ITEMS PER PAGE SELCTION -->
+
+<div class="row" *ngIf="paginationParams">
+    <div class="col-2"> 
+        <label style="margin-right: 10px;">Age From:</label>
+        <input type="number" class="form-control" [(ngModel)]="paginationParams.ageFrom" name="ageFrom">
+    </div>
+    <div class="col-2">
+        <label style="margin-right: 10px;">Age To:</label>
+        <input type="number" class="form-control" [(ngModel)]="paginationParams.ageTo" name="ageTo">
+    </div>
+        
+    <div class="col-2">
+        <label style="margin-right: 10px;">Gender </label>
+        <select [(ngModel)]="paginationParams.gender" class="form-select mb-4" name="gender">
+            <!-- <select #selectedItemsPerPage class="form-select mb-4" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()"> -->
+            <option [ngValue]="'female'">Female</option>
+            <option [ngValue]="'male'">Male</option>
+            <option [ngValue]="'others'">Others</option>            
+        </select>
+    </div>
+
+    <div class="col-3">
+        <button type="button" class="btn btn-outline-success mt-4 me-2" (click)="applyFilters()">Apply Filters</button>
+        <button type="button" class="btn btn-outline-danger mt-4" (click)="resetFilters()">Reset Filters</button>
+    </div>
+   
+    <div class="col-1">
+        <label class="text-info me-3">View </label>
+            <select [(ngModel)]="selectedItemsPerPage" class="form-select" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()">
+                <!-- <select #selectedItemsPerPage class="form-select mb-4" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()"> -->
+                <option  [ngValue]="4">4</option>
+                <option [ngValue]="8">8</option>
+                <option [ngValue]="12">12</option>
+                <option [ngValue]="16">16</option>
+            </select>
+            
+        
+    </div>    
+</div>
+
+<!-- MEMDER CARD -->
+<div class="row row-cols-4 g-2 mb-3">
+    <div class="col" *ngFor="let member of members$ |async">
         <app-member-card [member]="member"></app-member-card>
+    </div>       
+</div>
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
+            [totalCount]="totalCount"
+            [pageSize]="pageSize"
+            (childOnPageChange)="onPageCheand($event)"
+        >
+        </app-pager>
     </div>
 </div>

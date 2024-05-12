@@ -77,12 +77,12 @@ namespace API.Controllers
 
         [HttpGet, DisableRequestSizeLimit]
         [Route("getemojis")]
-        public async Task<IActionResult> GetEmojis()
+        public IActionResult GetEmojis()
         {
             var folderName = Path.Combine("Resources", "Images");
-            _logger.LogInformation("Folder Name : "+ folderName);
+            //_logger.LogInformation("Folder Name : "+ folderName);
             var pathToRead = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            _logger.LogInformation("Read File Path  : "+ pathToRead);
+            //_logger.LogInformation("Read File Path  : "+ pathToRead);
             // only get the photos
             var emojis = Directory.EnumerateFiles(pathToRead)
                                     .Where(isImageFile)

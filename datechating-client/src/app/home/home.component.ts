@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ export class HomeComponent implements OnInit{
   users: any;
   
 
-  constructor(private http : HttpClient){}
+  constructor(private http : HttpClient, private route : Router){}
   
   ngOnInit(): void {
     //throw new Error('Method not implemented.');
@@ -20,15 +21,19 @@ export class HomeComponent implements OnInit{
   }
 
   getUsers(){
-    this.http.get<any>('http://localhost:5123/api/user').subscribe({
-      next: response => {
-        console.log(response);
-        this.users = response
-      },
-      error: err => console.log(err),
-      complete: () => console.log("completed")   
+    const user = localStorage.getItem('user');
+    if(user){
+      this.route.navigateByUrl('/members');
+    }
+    // this.http.get<any>('http://localhost:5123/api/user').subscribe({
+    //   next: response => {
+    //     console.log(response);
+    //     this.users = response
+    //   },
+    //   error: err => console.log(err),
+    //   complete: () => console.log("completed")   
       
-    });
+    // });
   }
     
   registerToggle() {

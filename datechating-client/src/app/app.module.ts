@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -25,6 +25,9 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PhotoeditorComponent } from './members/photoeditor/photoeditor.component';
+import { InputTextComponent } from './_forms/input-text/input-text.component';
+import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
+import { PagerComponent } from './_shared/pager/pager.component';
 
 
 @NgModule({
@@ -42,7 +45,10 @@ import { PhotoeditorComponent } from './members/photoeditor/photoeditor.componen
     UploadComponent,
     MemberCardComponent,
     MemberEditComponent,
-    PhotoeditorComponent
+    PhotoeditorComponent,
+    InputTextComponent,
+    DatePickerComponent,
+    PagerComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +56,7 @@ import { PhotoeditorComponent } from './members/photoeditor/photoeditor.componen
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule    
   ],
   providers: [

@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTO;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
+using API.Model;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +32,28 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserSpecParams paginationParams)
         {
-            return await _context.Users
-                .Include(x => x.Photos)
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            // return await _context.Users
+            //     .Include(x => x.Photos)
+            //     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            //     .ToListAsync();
+
+            // var query = _context.Users
+            //                     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            //                     .AsNoTracking();
+            var minAge = DateOnly.FromDateTime(DateTime.Today.AddYears(-paginationParams.AgeTo -1));
+            var maxAge = DateOnly.FromDateTime(DateTime.Today.AddYears(-paginationParams.AgeFrom));
+
+            var query = _context.Users.AsEnumerable().AsQueryable();
+            query = query.Where(u => u.UserName != paginationParams.UserName);
+            query = query.Where(u => u.Gender == paginationParams.Gender);
+            query = query.Where(u => u.DateOfBirth >= minAge && u.DateOfBirth <= maxAge);            
+
+            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
+                                                            paginationParams.PageIndex, 
+                                                            paginationParams.PageSize);
+            
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)

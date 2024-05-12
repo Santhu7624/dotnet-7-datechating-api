@@ -4,7 +4,10 @@ using API.Data;
 using API.DTO;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
+using API.Model;
+using ATT.Logger.Library;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,20 +24,42 @@ namespace API.Controllers
 
         private readonly IPhotoService _photoService;
 
+        private readonly ILoggerService _logger;
+
        
-        public UserController(IUserRepository iUserRepo, IMapper mapper, IPhotoService photoService)
+        public UserController(IUserRepository iUserRepo, IMapper mapper, IPhotoService photoService, ILoggerService logger)
         {
             _userRepo = iUserRepo;
             _mapper = mapper;
             _photoService = photoService;
+            _logger = logger;
         }
+
+        // [AllowAnonymous]
+        // [HttpGet]
+        // public async Task<IEnumerable<MemberDto>> GetUsers()
+        // {
+        //     var result = await _userRepo.GetMembersAsync();
+        //     return result;
+        // }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IEnumerable<MemberDto>> GetUsers()
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserSpecParams paginationParams)
         {
-            var result = await _userRepo.GetMembersAsync();
-            return result;
+            _logger.LogInformation("======================= GetUser API Call Received");
+            _logger.LogJson(paginationParams);
+            var userResult = await _userRepo.GetUserByUsernameAsync(User.GetUserName());
+            
+            paginationParams.UserName = userResult.UserName;
+            paginationParams.Gender = userResult.Gender == "male" ? "female" : "male";
+
+            var result = await _userRepo.GetMembersAsync(paginationParams);
+            Response.AddHttpPaginationHeader(new Pagination(result.Currentpage, result.PageSize,result.TotalCount,result.TotalPages));
+            
+            _logger.LogInformation("======================= GetUser API Call Response");
+            _logger.LogJson(result);
+            return Ok(result);
         }
 
         [HttpGet("{username}")]
@@ -44,7 +69,6 @@ namespace API.Controllers
         }
 
         [HttpPut]
-
         public async Task<ActionResult> UpdateMember(MemberupdatedDto memberupdatedDto)
         {
             var username = User.GetUserName();
@@ -93,7 +117,6 @@ namespace API.Controllers
         }
 
         [HttpPut("set-main-photo/{photoId}")]
-
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
             var user = await _userRepo.GetUserByUsernameAsync(User.GetUserName());

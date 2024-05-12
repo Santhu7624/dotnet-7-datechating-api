@@ -5,6 +5,7 @@ using API.Middleware;
 using Microsoft.Extensions.FileProviders;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using ATT.Logger.Library;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +22,15 @@ builder.Services.AddApplicationService(builder.Configuration);
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddSingleton<ILoggerService, LoggerService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddIdentityService(builder.Configuration);
 
 builder.Services.AddMultiPartBodyLength(builder.Configuration);
+
+builder.Host.UseSerilogExtension();
 
 var app = builder.Build();
 
@@ -39,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
@@ -61,7 +65,7 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try{
     var logger = services.GetService<ILogger<Program>>();
-    logger.LogInformation("Seeding !!!");
+    //logger.LogInformation("Seeding !!!");
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
     await Seed.SeedUsers(context);
