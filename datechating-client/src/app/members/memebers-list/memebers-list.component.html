@@ -1,47 +1,69 @@
  <!-- ITEMS PER PAGE SELCTION -->
+ <div class="text-center mt-3">
+    <h2>Your matches - {{totalCount}} found</h2>
+ </div>
 
-<div class="row" *ngIf="paginationParams">
-    <div class="col-2"> 
-        <label style="margin-right: 10px;">Age From:</label>
-        <input type="number" class="form-control" [(ngModel)]="paginationParams.ageFrom" name="ageFrom">
-    </div>
-    <div class="col-2">
-        <label style="margin-right: 10px;">Age To:</label>
-        <input type="number" class="form-control" [(ngModel)]="paginationParams.ageTo" name="ageTo">
-    </div>
+<div class="container mt-3" *ngIf="paginationParams">
+    <form #form="ngForm" class="d-flex mb-3" (ngSubmit)="getMembers()" autocomplete="off">
+        <div class="d-flex mx-2"> 
+            <label class="col-form-label">Age From:</label>
+            <input type="number"  class="form-control ms-1" style="width: 70px;" [(ngModel)]="paginationParams.ageFrom" name="ageFrom">
+        </div>
+        <div class="d-flex px-2">
+            <label class="col-form-label">Age To:</label>
+            <input type="number" class="form-control ms-1" style="width: 70px;" [(ngModel)]="paginationParams.ageTo" name="ageTo">
+        </div>
+            
+        <div class="d-flex px-2">
+            <label class="col-form-label me-2">Gender </label>
+            <select [(ngModel)]="paginationParams.gender" style="width: 130px;" class="form-select ms-1" name="gender"
+                    >                
+                <option *ngFor="let gender of genderList" [value]="gender.value">{{gender.display}}</option>
+                <!-- <option [ngValue]="'male'">Male</option>
+                <option [ngValue]="'others'">Others</option> -->
+            </select>
+        </div>
+    
+       
+        <button type="submit" class="btn btn-success ms-1">Apply Filters</button>
+        <button type="button" class="btn btn-danger ms-1" (click)="resetFilters()">Reset Filters</button>
         
-    <div class="col-2">
-        <label style="margin-right: 10px;">Gender </label>
-        <select [(ngModel)]="paginationParams.gender" class="form-select mb-4" name="gender">
-            <!-- <select #selectedItemsPerPage class="form-select mb-4" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()"> -->
-            <option [ngValue]="'female'">Female</option>
-            <option [ngValue]="'male'">Male</option>
-            <option [ngValue]="'others'">Others</option>            
-        </select>
-    </div>
+        <div class="col">
+            <div class="btn-group float-end" role="group" aria-label="Basic button toggle button group">
+                <button class="btn btn-outline-success me-2" 
+                    type="button"
+                    [(ngModel)]="paginationParams.orderBy" 
+                    name="orderBy"
+                    btnRadio = "lastActive"
+                    (click)="getMembers()"
+                    >
+                    Last Active</button>
+                <button class="btn btn-outline-success" 
+                type="button"
+                [(ngModel)]="paginationParams.orderBy" 
+                name="orderBy"
+                btnRadio = "created"
+                (click)="getMembers()">
+                New Members</button>
+            </div>
+        </div>
 
-    <div class="col-3">
-        <button type="button" class="btn btn-outline-success mt-4 me-2" (click)="applyFilters()">Apply Filters</button>
-        <button type="button" class="btn btn-outline-danger mt-4" (click)="resetFilters()">Reset Filters</button>
-    </div>
-   
-    <div class="col-1">
-        <label class="text-info me-3">View </label>
-            <select [(ngModel)]="selectedItemsPerPage" class="form-select" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()">
+        <div class="d-flex px-2">
+            <label class="col-form-label me-2">View </label>
+            <select [(ngModel)]="selectedItemsPerPage" class="form-select ms-1" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()">
                 <!-- <select #selectedItemsPerPage class="form-select mb-4" name="selectedItemsPerPage" (change)="onItemsPerPageCheand()"> -->
-                <option  [ngValue]="4">4</option>
+                <option [ngValue]="4">4</option>
                 <option [ngValue]="8">8</option>
                 <option [ngValue]="12">12</option>
                 <option [ngValue]="16">16</option>
-            </select>
-            
-        
-    </div>    
+            </select>                            
+        </div>   
+    </form>
 </div>
 
 <!-- MEMDER CARD -->
 <div class="row row-cols-4 g-2 mb-3">
-    <div class="col" *ngFor="let member of members$ |async">
+    <div class="col" *ngFor="let member of members">
         <app-member-card [member]="member"></app-member-card>
     </div>       
 </div>

@@ -24,5 +24,7 @@ namespace API.Model
         public int AgeFrom { get; set; } = 18;
 
         public int AgeTo { get; set; } = 100;
+
+        public string OrderBy { get; set; }
     }
 }

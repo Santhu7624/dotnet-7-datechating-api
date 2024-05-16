@@ -12,60 +12,68 @@ import { AccountService } from 'src/app/_services/account.service';
   styleUrls: ['./memebers-list.component.css']
 })
 export class MemebersListComponent implements OnInit{
-  //members : Member[]=[];
-  members$: Observable<Member[]> | undefined;
+  members : Member[]=[];
+  //members$: Observable<Member[]> | undefined;
   totalCount = 0;
   pageSize = 0; 
   selectedItemsPerPage : number | undefined;
   paginationParams : Userspecparams | undefined;
-  user : User | undefined;
+  //user : User | undefined;
+
+  genderList = [  
+    {value:'male', display:'Male'},
+    {value:'female', display:'Female'},
+
+  ]
   //@ViewChild('selectedItemsPerPage') selectedItemsPerPage !: ElementRef;
 
-  constructor(private memberService : MemberService, private accountService : AccountService){
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user => {
-        if(user){
-          this.paginationParams = new Userspecparams(user);
-          this.user = user;
-        }
-      }
-    })
+  constructor(private memberService : MemberService){
+    this.paginationParams = this.memberService.getPaginationParams();
+    console.log('member-list construct : '+ JSON.stringify(this.paginationParams));
+    
+    // this.accountService.currentUser$.pipe(take(1)).subscribe({
+    //   next: user => {
+    //     if(user){
+    //       this.paginationParams = new Userspecparams(user);
+    //       this.user = user;
+    //     }
+    //   }
+    // })
   }
   
   ngOnInit(): void {    
     this.getMembers();    
   }
 
-  getMembers(){
-    console.log('getmembers');
+  getMembers(){    
     
-    console.log(JSON.stringify(this.paginationParams));
-
-    if(!this.paginationParams) return;
-
-    this.selectedItemsPerPage = this.paginationParams?.pageSize;
-    this.memberService.getMembers(this.paginationParams).subscribe({
-      next : response => {       
-       
-        const members = response.result as Member[];      
-        this.members$ = of(members);
-        if(response.pagination){
-          this.totalCount = response.pagination?.totalItems; 
-          this.pageSize = response.pagination?.itemsPerPage;
-        }          
-      },
-      error: error =>{
-        console.log(error);
-        
+    if(this.paginationParams) {
+      
+      this.selectedItemsPerPage = this.paginationParams?.pageSize;
+      this.memberService.setPaginationParams(this.paginationParams);
+      this.memberService.getMembers(this.paginationParams).subscribe({
+        next : response => {                 
+          this.members = response.result;             
+          //this.members$ = of(members);
+          //console.log('member-list getMembers 5 : '+ JSON.stringify(this.members$ ));
+          if(response.pagination){
+            this.totalCount = response.pagination?.totalItems; 
+            this.pageSize = response.pagination?.itemsPerPage;
+          }          
+        },
+        error: error =>{
+          console.log(error);
+          
+        }
       }
-    }
-  ); 
+    ); 
+  }    
 } 
 
   onPageCheand(event : any){
     if(this.paginationParams && this.paginationParams?.pageIndex !== event){
       this.paginationParams.pageIndex = event;
-      console.log('on change page Index : '+ event);
+      this.memberService.setPaginationParams(this.paginationParams);   
       
       this.getMembers();
     
@@ -78,8 +86,8 @@ export class MemebersListComponent implements OnInit{
     //   this.paginationParams.pageSize = this.selectedItemsPerPage.nativeElement.value;
     
     if(this.paginationParams && this.selectedItemsPerPage && this.paginationParams?.pageSize !== this.selectedItemsPerPage){
-    this.paginationParams.pageSize = this.selectedItemsPerPage;
-      console.log('on change page soze : '+ this.paginationParams.pageSize);
+      this.paginationParams.pageSize = this.selectedItemsPerPage;
+      this.memberService.setPaginationParams(this.paginationParams);
       
       this.getMembers();
     
@@ -87,16 +95,17 @@ export class MemebersListComponent implements OnInit{
   }
 
   applyFilters(){
-    if(this.paginationParams)
-      this.getMembers();
-  }
-
-  resetFilters(){
-    if(this.user){
-      this.paginationParams = new Userspecparams(this.user);
+    
+    if(this.paginationParams){
+      console.log('member-list applyFilters : '+ JSON.stringify(this.paginationParams));
       this.getMembers();
     }
-    
+      
+  }
+
+  resetFilters(){   
+      this.paginationParams = this.memberService.resetPaginationParams();
+      this.getMembers();       
   }
 
 

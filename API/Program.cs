@@ -6,6 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using ATT.Logger.Library;
+using API.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddSingleton<ILoggerService, LoggerService>();
+builder.Services.AddScoped<LogUserActivity>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

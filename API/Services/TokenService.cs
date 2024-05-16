@@ -24,7 +24,9 @@ namespace API.Services
 
             var claims = new List<Claim>
             {
-                new (JwtRegisteredClaimNames.NameId, user.UserName)
+                new (JwtRegisteredClaimNames.UniqueName, user.UserName),
+                new (JwtRegisteredClaimNames.NameId, user.Id.ToString())
+
             };
 
             // var token = new JwtSecurityToken(_config["Jwt:Issuer"],

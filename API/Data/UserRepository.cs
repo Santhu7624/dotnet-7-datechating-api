@@ -48,7 +48,13 @@ namespace API.Data
             var query = _context.Users.AsEnumerable().AsQueryable();
             query = query.Where(u => u.UserName != paginationParams.UserName);
             query = query.Where(u => u.Gender == paginationParams.Gender);
-            query = query.Where(u => u.DateOfBirth >= minAge && u.DateOfBirth <= maxAge);            
+            query = query.Where(u => u.DateOfBirth >= minAge && u.DateOfBirth <= maxAge);     
+
+            query = paginationParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.CreatedDate),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };       
 
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
                                                             paginationParams.PageIndex, 

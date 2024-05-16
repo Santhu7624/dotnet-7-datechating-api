@@ -52,7 +52,8 @@ namespace API.Controllers
             var userResult = await _userRepo.GetUserByUsernameAsync(User.GetUserName());
             
             paginationParams.UserName = userResult.UserName;
-            paginationParams.Gender = userResult.Gender == "male" ? "female" : "male";
+            if(string.IsNullOrEmpty(paginationParams.Gender))
+                paginationParams.Gender = userResult.Gender == "male" ? "female" : "male";
 
             var result = await _userRepo.GetMembersAsync(paginationParams);
             Response.AddHttpPaginationHeader(new Pagination(result.Currentpage, result.PageSize,result.TotalCount,result.TotalPages));
