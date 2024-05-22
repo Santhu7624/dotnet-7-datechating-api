@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { User } from './model/user';
 import { AccountService } from './_services/account.service';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,11 @@ export class AppComponent implements OnInit {
               private accountService: AccountService) { }
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    
     this.setCurrentUser();
   }
+  
 
   setCurrentUser() {
 
@@ -35,3 +38,4 @@ export class AppComponent implements OnInit {
 
 
 }
+

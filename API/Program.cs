@@ -25,6 +25,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddSingleton<ILoggerService, LoggerService>();
 builder.Services.AddScoped<LogUserActivity>();
+builder.Services.AddScoped<ILikeRepository, LikeRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

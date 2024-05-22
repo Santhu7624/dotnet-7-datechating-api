@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export class Userspecparams{    
-    pageSize = 8;
+    pageSize = 4;
     pageIndex = 1;   
     gender : string;
     orderBy = 'lastActive';

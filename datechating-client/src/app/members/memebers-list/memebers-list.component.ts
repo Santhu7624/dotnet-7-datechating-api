@@ -29,7 +29,7 @@ export class MemebersListComponent implements OnInit{
 
   constructor(private memberService : MemberService){
     this.paginationParams = this.memberService.getPaginationParams();
-    console.log('member-list construct : '+ JSON.stringify(this.paginationParams));
+    //console.log('member-list construct : '+ JSON.stringify(this.paginationParams));
     
     // this.accountService.currentUser$.pipe(take(1)).subscribe({
     //   next: user => {
@@ -53,7 +53,8 @@ export class MemebersListComponent implements OnInit{
       this.memberService.setPaginationParams(this.paginationParams);
       this.memberService.getMembers(this.paginationParams).subscribe({
         next : response => {                 
-          this.members = response.result;             
+          this.members = response.result;   
+              
           //this.members$ = of(members);
           //console.log('member-list getMembers 5 : '+ JSON.stringify(this.members$ ));
           if(response.pagination){
@@ -97,7 +98,7 @@ export class MemebersListComponent implements OnInit{
   applyFilters(){
     
     if(this.paginationParams){
-      console.log('member-list applyFilters : '+ JSON.stringify(this.paginationParams));
+      
       this.getMembers();
     }
       

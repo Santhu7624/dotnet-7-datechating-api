@@ -129,6 +129,31 @@ export class MemberService {
     }
   }
 
+  
+  //================================= Likes =================================
+
+  addLike(userName : string){
+    return this.http.post(this.baseUrl + 'like/'+userName, {});
+  }
+
+  getLikes(predicate : string){
+    return this.http.get<Member[]>(this.baseUrl+'like?predicate='+ predicate);
+  }
+
+  getLikesWithPagination(predicate : string, pageNumber : number, pageSize : number){
+          
+    let params = new HttpParams();
+    params = params.append('PageIndex', pageNumber);
+    params = params.append('PageSize', pageSize);      
+    params = params.append('Predicate', predicate); 
+       
+        
+    return this.getPaginationResult<Member[]>(this.baseUrl + 'like', params);
+     
+    
+  }
+
+
   private getPaginationResult<T>(url: string, params : HttpParams){
     const paginationResults : PaginationResult<T> = new PaginationResult<T>;
 
@@ -147,4 +172,5 @@ export class MemberService {
      }) 
     );
   }
+
 }
