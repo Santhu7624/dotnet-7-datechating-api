@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Data;
 using API.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +9,13 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationService(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<DataContext>(options => {
-                options.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                var connString = config.GetConnectionString("DefaultConnection");
+                options.UseSqlite(connString);
+                
+                /*
+                * Microsoft sql server (Microsoft.EntityFrameworkCore.SqlServer)
+                */
+                //options.UseSqlServer(connString);
             });
 
             services.AddCors(options => {

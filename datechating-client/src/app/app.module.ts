@@ -28,6 +28,7 @@ import { PhotoeditorComponent } from './members/photoeditor/photoeditor.componen
 import { InputTextComponent } from './_forms/input-text/input-text.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
 import { PagerComponent } from './_shared/pager/pager.component';
+//import { MemberMessageComponent } from './members/member-message/member-message.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { PagerComponent } from './_shared/pager/pager.component';
     InputTextComponent,
     DatePickerComponent,
     PagerComponent
+    
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { Userspecparams} from '../model/userspecparams';
 import { PaginationResult, Pagination } from '../model/pagination';
 import { User } from '../model/user';
 import { AccountService } from './account.service';
+import { getPaginationResult } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +53,7 @@ export class MemberService {
       params = params.append('OrderBy', paginationParams.orderBy);
     }    
         
-    return this.getPaginationResult<Member[]>(this.baseUrl + 'user', params).pipe(
+    return getPaginationResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
       map(response =>
         {
           //=== Set result to cache
@@ -148,29 +149,12 @@ export class MemberService {
     params = params.append('Predicate', predicate); 
        
         
-    return this.getPaginationResult<Member[]>(this.baseUrl + 'like', params);
+    return getPaginationResult<Member[]>(this.baseUrl + 'like', params, this.http);
      
     
   }
 
 
-  private getPaginationResult<T>(url: string, params : HttpParams){
-    const paginationResults : PaginationResult<T> = new PaginationResult<T>;
-
-    return this.http.get<T>(url, {observe: 'response', params : params}).pipe(
-     map(response => {
-      if(response.body){
-        paginationResults.result = response.body;
-      }
-      const pagination = response.headers.get('Pagination');
-      
-      if(pagination){
-        paginationResults.pagination = JSON.parse(pagination);
-      }
-
-      return paginationResults;
-     }) 
-    );
-  }
+ 
 
 }
