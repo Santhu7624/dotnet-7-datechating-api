@@ -39,6 +39,7 @@ export class NavComponent implements OnInit {
         //console.log("Success Login : " +JSON.stringify(resp)),
         //this.isloogedIn = true
         this.router.navigateByUrl("/members");
+        this.model = {};
       },
       error: error => this.toastr.error(error.error),
       complete: () => console.log("Complete")

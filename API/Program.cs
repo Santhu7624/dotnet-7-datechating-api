@@ -24,12 +24,14 @@ builder.Services.AddSwaggerService(builder.Configuration);
 builder.Services.AddApplicationService(builder.Configuration);
 
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+// builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddSingleton<ILoggerService, LoggerService>();
 builder.Services.AddScoped<LogUserActivity>();
-builder.Services.AddScoped<ILikeRepository, LikeRepository>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+// builder.Services.AddScoped<ILikeRepository, LikeRepository>();
+// builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<PresenceTracker>();
 
