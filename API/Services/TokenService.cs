@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using API.Entities;
 using API.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Services
@@ -11,12 +12,15 @@ namespace API.Services
     {
         private SymmetricSecurityKey _key;
         private readonly IConfiguration _config;
-        public TokenService(IConfiguration config)
+        private readonly UserManager<AppUser> _userManager;
+
+        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             
             _config = config;
+            _userManager = userManager;
         }
-        public string CreateToken(AppUser user)
+        public async Task<string> CreateToken(AppUser user)
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:TokenKey"]));
 
@@ -28,6 +32,9 @@ namespace API.Services
                 new (JwtRegisteredClaimNames.NameId, user.Id.ToString())
 
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
             // var token = new JwtSecurityToken(_config["Jwt:Issuer"],
             //     _config["Jwt:Audience"],

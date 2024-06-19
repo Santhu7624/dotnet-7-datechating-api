@@ -8,6 +8,7 @@ using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using API.Model;
+using ATT.Logger.Library;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,10 @@ namespace API.Data
     {
         private  readonly DataContext _context;
         private readonly IMapper _mapper;
-        public UserRepository(DataContext context, IMapper mapper)
+        private readonly ILoggerService _loggerService;
+        public UserRepository(DataContext context, IMapper mapper, ILoggerService loggerService)
         {
+            _loggerService = loggerService;
             _context = context;   
             _mapper = mapper;
         }
@@ -44,7 +47,7 @@ namespace API.Data
             //                     .AsNoTracking();
             var minAge = DateOnly.FromDateTime(DateTime.Today.AddYears(-paginationParams.AgeTo -1));
             var maxAge = DateOnly.FromDateTime(DateTime.Today.AddYears(-paginationParams.AgeFrom));
-
+            _loggerService.LogInformation(minAge.ToString() + "   "+ maxAge);
             var query = _context.Users.AsEnumerable().AsQueryable();
             query = query.Where(u => u.UserName != paginationParams.UserName);
             query = query.Where(u => u.Gender == paginationParams.Gender);
@@ -55,11 +58,12 @@ namespace API.Data
                 "created" => query.OrderByDescending(u => u.CreatedDate),
                 _ => query.OrderByDescending(u => u.LastActive)
             };       
-
-            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
+            _loggerService.LogInformation(query.ToString());
+            var result = await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
                                                             paginationParams.PageIndex, 
                                                             paginationParams.PageSize);
-            
+            _loggerService.LogJson(result);
+            return result;
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)

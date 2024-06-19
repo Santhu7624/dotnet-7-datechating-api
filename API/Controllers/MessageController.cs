@@ -53,6 +53,7 @@ namespace API.Controllers
             return BadRequest("Failed to send message");
         }
 
+        [HttpGet]
         public async Task<ActionResult<PagedList<MessageDto>>>GetMessagesForUser([FromQuery] MessageParams messageParams)
         {
             messageParams.Username = User.GetUserName();

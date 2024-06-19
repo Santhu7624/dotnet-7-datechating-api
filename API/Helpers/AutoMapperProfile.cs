@@ -39,6 +39,12 @@ namespace API.Helpers
             CreateMap<MemberupdatedDto, AppUser>();
 
             CreateMap<RegisterDto, AppUser>();
+
+            //=== Date Time Conversion mapping
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+
+            CreateMap<DateTime?,DateTime?>().ConvertUsing(d => d.HasValue ? 
+                            DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
         }
     }
 }

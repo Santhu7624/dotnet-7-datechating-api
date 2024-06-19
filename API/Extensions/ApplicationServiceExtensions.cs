@@ -23,7 +23,8 @@ namespace API.Extensions
                     builder.AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowCredentials()
-                            .SetIsOriginAllowed((hosts) => true);
+                            .WithOrigins("https://localhost:4200");
+                            //.SetIsOriginAllowed((hosts) => true);
                 });
              });
 

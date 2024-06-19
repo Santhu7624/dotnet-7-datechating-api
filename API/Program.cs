@@ -7,6 +7,9 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using ATT.Logger.Library;
 using API.Helpers;
+using Microsoft.AspNetCore.Identity;
+using API.Entities;
+using API.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,8 @@ builder.Services.AddSingleton<ILoggerService, LoggerService>();
 builder.Services.AddScoped<LogUserActivity>();
 builder.Services.AddScoped<ILikeRepository, LikeRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<PresenceTracker>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -64,16 +69,25 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 app.MapControllers();
+app.MapHub<PresenceHub>("/hubs/presence");
+app.MapHub<MessageHub>("/hubs/message");
+
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try{
     var logger = services.GetService<ILogger<Program>>();
-    //logger.LogInformation("Seeding !!!");
+    logger.LogInformation("Seeding Start!!!");
     var context = services.GetRequiredService<DataContext>();
+    var usermanager = services.GetRequiredService<UserManager<AppUser>>();
+    var rolemanager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(context);
-}catch(Exception ex){
+    // context.Connections.RemoveRange(context.Connections);
+    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+    await Seed.SeedUsers(usermanager, rolemanager);
+    logger.LogInformation("Seeding End!!!");
+}
+catch(Exception ex){
     var logger = services.GetService<ILogger<Program>>();
     logger.LogError(ex, "Migration Error");
 }

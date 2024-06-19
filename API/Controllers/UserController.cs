@@ -43,12 +43,13 @@ namespace API.Controllers
         //     return result;
         // }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserSpecParams paginationParams)
         {
             _logger.LogInformation("======================= GetUser API Call Received");
             _logger.LogJson(paginationParams);
+            if (User.GetUserName() == null || User.GetUserName() == "") return null;
+
             var userResult = await _userRepo.GetUserByUsernameAsync(User.GetUserName());
             
             paginationParams.UserName = userResult.UserName;
