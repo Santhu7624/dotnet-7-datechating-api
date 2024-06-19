@@ -48,6 +48,7 @@ export class MemebersListComponent implements OnInit{
   getMembers(){    
     
     if(this.paginationParams) {
+      //console.log('Pagination params  \r\n' +JSON.stringify( this.paginationParams));
       
       this.selectedItemsPerPage = this.paginationParams?.pageSize;
       this.memberService.setPaginationParams(this.paginationParams);
@@ -56,7 +57,7 @@ export class MemebersListComponent implements OnInit{
           this.members = response.result;   
               
           //this.members$ = of(members);
-          //console.log('member-list getMembers 5 : '+ JSON.stringify(this.members$ ));
+          //console.log('member-list getMembers 5 : '+ JSON.stringify(this.members));
           if(response.pagination){
             this.totalCount = response.pagination?.totalItems; 
             this.pageSize = response.pagination?.itemsPerPage;

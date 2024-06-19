@@ -28,6 +28,13 @@ import { PhotoeditorComponent } from './members/photoeditor/photoeditor.componen
 import { InputTextComponent } from './_forms/input-text/input-text.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
 import { PagerComponent } from './_shared/pager/pager.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomeRouteReuseStrategy } from './_services/customRouteReuseStrategy';
 //import { MemberMessageComponent } from './members/member-message/member-message.component';
 
 
@@ -49,7 +56,12 @@ import { PagerComponent } from './_shared/pager/pager.component';
     PhotoeditorComponent,
     InputTextComponent,
     DatePickerComponent,
-    PagerComponent
+    PagerComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    PhotoManagementComponent,
+    RolesModalComponent
     
   ],
   imports: [
@@ -64,7 +76,8 @@ import { PagerComponent } from './_shared/pager/pager.component';
   providers: [
     {provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true},
     {provide : HTTP_INTERCEPTORS, useClass : JwtInterceptor, multi: true},
-    {provide : HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    {provide : HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    {provide : RouteReuseStrategy, useClass : CustomeRouteReuseStrategy}
   ],
   bootstrap: [AppComponent]
 })

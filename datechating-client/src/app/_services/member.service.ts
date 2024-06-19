@@ -56,6 +56,7 @@ export class MemberService {
     return getPaginationResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
       map(response =>
         {
+          //console.log('cache returns  2 ' + JSON.stringify(response));
           //=== Set result to cache
           this.memberCache.set(Object.values(paginationParams).join('-'), response);
           return response;

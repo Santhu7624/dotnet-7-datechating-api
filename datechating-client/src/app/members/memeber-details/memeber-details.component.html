@@ -4,6 +4,9 @@
     
         <div class="card">
             <div class="card-body">
+                <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+                    <i class="class fa fa-user-circle text-success me-2"></i>Online Now
+                </div>
                 <div>
                     <strong>Location : </strong>
                     <p>{{member.city}}, {{member.country}}</p>
@@ -14,7 +17,7 @@
                 </div>
                 <div>
                     <strong>Last Active : </strong>
-                    <p>{{member.lastActive + 'Z' | timeago}}</p>
+                    <p>{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
                     <strong>Member since : </strong>
@@ -50,7 +53,7 @@
             </tab>
 
             <tab heading="Messages" (selectTab)="onTabActivated($event)">
-                <app-member-message [messages]="messages" [username]="member.userName"></app-member-message>
+                <app-member-message [username]="member.userName"></app-member-message>
             </tab>
         </tabset>
 

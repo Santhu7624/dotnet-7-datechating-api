@@ -22,6 +22,9 @@
                 <li class="nav-item">
                     <a href="" class="nav-link" routerLink="/messages">Messages</a>
                 </li>
+                <li *appHasRole="['Admin', 'Moderator']" class="nav-item">
+                    <a href="" class="nav-link" routerLink="/admin">Admin</a>
+                </li>
             
             </ng-container>
             <li class="nav-item">

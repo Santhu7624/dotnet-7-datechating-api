@@ -9,6 +9,7 @@ export function getPaginationResult<T>(url: string, params : HttpParams, http : 
 
     return http.get<T>(url, {observe: 'response', params : params}).pipe(
      map(response => {
+      //console.log('cache returns  3' + JSON.stringify(response));
       if(response.body){
         paginationResults.result = response.body;
       }
